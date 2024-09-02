@@ -1,4 +1,6 @@
 # Bash Scripting
+![image](https://github.com/user-attachments/assets/2a2a59f1-eace-41e4-ae8d-73a5ff068ba7)
+
 ## Introduction
 In the fast-paced world of data management, the ability to efficiently automate data processes is crucial. This projects showcase my expertise in using Bash scripting for automating Extract, Transform, Load (ETL) operations. My main focus is on managing CSV & JSON files and integrating them seamlessly with PostgreSQL databases, reflecting both my technical skills and my commitment to optimizing data workflows.
 
@@ -13,8 +15,6 @@ You have been hired as a new Data Engineer at CoreDataEngineers. The CoreDataEng
    
    - **Load:** Load the transformed data into a directory named `Gold`. Also, confirm that the file has been saved into the folder.
 
-   Note: Use environment variables for the URL, and call it in your script. Write a well-detailed script, add sufficient comments to the script, and print out information for each step.
-
 ## 2. Your manager has asked you to schedule the script to run daily using cron jobs. Schedule the script to run every day at 12:00 AM.
 
 ### Architecture Diagram.
@@ -23,7 +23,7 @@ You have been hired as a new Data Engineer at CoreDataEngineers. The CoreDataEng
 ### Usage
 1. Clone the repository.
 ```sh
-   git clone https://github.com/Samuel-Njoroge/etl-in-bash.git
+git clone https://github.com/Samuel-Njoroge/etl-in-bash.git
 ```
 2. Navigate into the directory.
 ```sh
@@ -31,22 +31,22 @@ cd etl-in-bash/scripts
  ```
 3. Make the `etl.sh` file executable.
 ```sh
-  chmod +x etl.sh
+chmod +x etl.sh
 ```
 4. Run the bash script.
 ```sh
- ./etl.sh
+./etl.sh
 ```
 
 OR
 
 4. Schedule the script to run daily at `12:00 AM`.
    
-4.1 Open a crontab file.
+- Open a crontab file.
 ```sh
 crontab -e
 ```
-4.2 Add the code in the file and save the file.
+- Add the code in the file and save the file.
 ```sh
 0 0 * * * etl.sh
 ```
@@ -63,15 +63,15 @@ git clone https://github.com/Samuel-Njoroge/etl-in-bash.git
 ```
 2. Navigate into the directory.
  ```sh
- cd etl-in-bash/scripts
+cd etl-in-bash/scripts
 ```
 3. Make the `move_files.sh` file executable.
  ```sh
- chmod +x move_files.sh
+chmod +x move_files.sh
 ```
 4. Run the bash script.
 ```sh
- ./move_files.sh
+./move_files.sh
 ```
 
 ## 4. CoreDataEngineers is diversifying into the sales of goods and services. To understand the market, your organization needs to analyze their competitor, `Parch and Posey`. Download the CSV file using this [link](https://we.tl/t-2xYLL816Yt) to your local PC. After downloading, do the following:
@@ -94,7 +94,7 @@ git clone https://github.com/Samuel-Njoroge/etl-in-bash.git
 ### Usage
 1. Clone the repository.
 ```sh
-   git clone https://github.com/Samuel-Njoroge/etl-in-bash.git
+git clone https://github.com/Samuel-Njoroge/etl-in-bash.git
 ```
 2. Navigate into the directory.
 ```sh
@@ -102,42 +102,70 @@ cd etl-in-bash/scripts
 ```
 3. Make the `csv_to_postgres.sh` file executable.
 ```sh
- chmod +x csv_to_postgres.sh
+chmod +x csv_to_postgres.sh
 ```
 4. Run the bash script.
 ```sh
- ./csv_to_postgres.sh
+./csv_to_postgres.sh
 ```
  
 ### SQL Queries.
-#### a) Find a list of order IDs where either `gloss_qty` or `poster_qty` is greater than 4000. Only include the `id` field in the resulting table.
-##### Query
+### a) Find a list of order IDs where either `gloss_qty` or `poster_qty` is greater than 4000. Only include the `id` field in the resulting table.
+### Query
 ```sh
 SELECT id
 FROM orders
 WHERE gloss_qty > 4000 OR poster_qty > 4000;
 ```
 
-#### b) Write a query that returns a list of orders where the `standard_qty` is zero and either the `gloss_qty` or `poster_qty` is over 1000.
-##### Query
+### Results
+
+|   id |
+| ---- | 
+| 362 |
+| 731 |
+| 1191 |
+| 1913 |
+| 1939 |
+| 3778 |
+| 3858 |
+| 3963 |
+| 4016 |
+| 4230 |
+| 4698 |
+| 4942 |
+| 5791 |
+| 6590 |
+
+### b) Write a query that returns a list of orders where the `standard_qty` is zero and either the `gloss_qty` or `poster_qty` is over 1000.
+### Query
 ```sh
 SELECT *
 FROM orders
 WHERE standard_qty = 0 AND (gloss_qty > 1000 OR poster_qty > 1000);
 ```
 
-#### c) Find all the company names that start with a 'C' or 'W', and where the primary contact contains 'ana' or 'Ana', but does not contain 'eana'.
-##### Query
+### Results
+
+### c) Find all the company names that start with a 'C' or 'W', and where the primary contact contains 'ana' or 'Ana', but does not contain 'eana'.
+### Query
 ```sh
-SELECT name
+SELECT name, primary_poc
 FROM accounts
 WHERE (name LIKE 'C%' OR name LIKE 'W%')
   AND (primary_poc LIKE '%ana%' OR primary_poc LIKE '%Ana%')
   AND primary_poc NOT LIKE '%eana%';
 ```
 
-#### d) Provide a table that shows the region for each sales rep along with their associated accounts. Your final table should include three columns: the region name, the sales rep name, and the account name. Sort the accounts alphabetically (A-Z) by account name.
-##### Query
+### Results
+	
+| name | primary_poc |
+| ---- | --- |
+| CVS Health | Anabel Haskell |
+| Comcast | Shana Sanborn |
+
+### d) Provide a table that shows the region for each sales rep along with their associated accounts. Your final table should include three columns: the `region name, sales rep name, account name`. Sort the accounts alphabetically (A-Z) by account name.
+### Query
 ```sh
 SELECT r.name AS region_name,
        s.name AS sales_rep_name,
@@ -147,3 +175,25 @@ JOIN sales_reps s ON r.id = s.region_id
 JOIN accounts a ON s.id = a.sales_rep_id
 ORDER BY a.name ASC;
 ```
+
+### Results : A preview of the Top 10 only.
+| region_name | sales_rep_name | account_name |
+| ----------- | -------------- | ---- | 
+| Northeast   | Sibyl Lauria	    | 3M
+| Midwest     | Chau Rowles	    | Abbott Laboratories
+| Midwest	  | Julie Starr	    | AbbVie
+| Southeast   | Earlie Schleusner | ADP
+| West	     | Marquetta Laycock | Advance Auto Parts
+| Southeast   | Moon Torian	    | AECOM  
+| Southeast   | Calvin Ollison    | AES
+| Northeast   | Renetta Carew	    | Aetna
+| Midwest	  | Cliff Meints	    | Aflac
+| Northeast   | Elba Felder	    | AIG
+
+## Contributions
+Feel free to contribute to the project.
+
+## Acknowledgement
+This project is one of my submissions in the Core Data Engineers Bootcamp, `Linux & Bash Module`.
+
+Learn more about them [Core Data Engineers](https://coredataengineers.com/)
